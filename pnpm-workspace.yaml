@@ -1,0 +1,9 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'tools/*'
+allowBuilds:
+  esbuild: true
+  better-sqlite3: true
+  core-js: false
+  simple-git-hooks: true

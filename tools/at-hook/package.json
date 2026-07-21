@@ -1,0 +1,9 @@
+{
+  "name": "@agent-team/at-hook",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "agent-team-at-hook": "./bin.mjs"
+  }
+}

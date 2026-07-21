@@ -1,0 +1,35 @@
+# --- 依赖 / 构建产物 ---
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# --- 密钥 / 本地配置（开源风险，绝不提交）---
+.env
+.env.local
+.env.*
+!.env.example
+apps/web/.env.local
+
+# --- 运行时数据目录（任务工作区，含 agent workspace / chatroom / db / 用户自装 skill+tool）---
+# 用户机器上运行时数据默认落 ~/.agent-team/（不在仓库内）。
+~/.agent-team/
+# agent 运行时装的 skill、用户装的 cli tool 都落在 agent workspace（~/.agent-team/.../agents/<id>/.claude/）下，
+# 天然不在仓库。若开发期把 DATA_HOME 指到仓库内，下面这条兜底忽略：
+.agent-team/
+
+# 仓库内已跟踪的 openspec skills 仍保持跟踪；用户后续自装的 skill/tool 不提交。
+# .claude/worktrees/（subagent 隔离 worktree 的运行时产物）也不提交：
+.claude/worktrees/
+.claude/skills/
+.claude/tools/
+# preview 工具生成的本机 launch 配置（含绝对路径，不可移植）：
+.claude/launch.json
+
+# --- 编辑器 / 系统 ---
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.log

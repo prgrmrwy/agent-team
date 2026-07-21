@@ -1,0 +1,132 @@
+/**
+ * Design tokens — Sheikah Slate × Hyrule Parchment
+ * 双寄存器视觉系统,与 docs/design-handoff.md §3.1 一一对应。
+ * 任何颜色 / 间距 / 字体值都通过这里 CSS variable 引用,**不直接硬编码**。
+ */
+
+:root {
+  /* ─── Sheikah slate / chrome（全站底色 + 面板 / 边） ─── */
+  --slate-bg: #0c1418;
+  --slate-surface: #131e25;
+  --slate-elev: #1a2832;
+  --slate-edge: #243744;
+  --slate-divide: rgba(91, 200, 221, 0.18);
+
+  /* ─── Sheikah glow（cyan 主调,强调 / HUD / 状态） ─── */
+  --cyan: #5bc8dd;
+  --cyan-bright: #7eecff;
+  --cyan-dim: #2d6d7c;
+  --cyan-glow: rgba(91, 200, 221, 0.55);
+  --amber: #ff8c2e;
+  --amber-glow: rgba(255, 140, 46, 0.55);
+  --gold: #e8b028;
+  --malice: #b83a5a;
+
+  /* ─── Ink（文字层级） ─── */
+  --ink-white: #e6edf0;
+  --ink-soft: #b3c3ca;
+  --ink-dim: #6b808a;
+  --ink-dimmer: #45565f;
+
+  /* ─── Champion 角色调色板（怪物头像 / seats 圆点 / 消息署名） ─── */
+  --planner: #6abae8;      /* Wizzrobe */
+  --engineer: #f08544;     /* Moblin */
+  --qa: #8fc758;           /* Octorok */
+  --anti: #d05878;         /* Lynel */
+  --ci: #e8b028;           /* Guardian (= --gold) */
+  --pmux: #a896e0;         /* Korok */
+  --link: #88c563;         /* YOU = Link */
+  --link-glow: rgba(136, 197, 99, 0.6);
+  --system: #aeb8c4;       /* SYSTEM = Overlord(冷铂金钢,非 champion,代表总控/系统) */
+
+  /* ─── Hyrule parchment（仅右栏 artifact viewer） ─── */
+  --paper: #ead8a8;
+  --paper-edge: #c9b170;
+  --paper-shadow: #9c7e3f;
+  --paper-deep: #6b4f1f;
+  --ink-brown: #3a2510;
+  --ink-brown-d: #6a4a25;
+
+  /* ─── 排版 ─── */
+  --font-chrome: 'Manrope', 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
+  --font-paper: 'Cormorant Garamond', 'Songti SC', 'STSong', serif;
+
+  /* ─── 尺寸 ─── */
+  --sidebar-w-default: 280px;
+  --rightpanel-w-default: 480px;
+  --grid-gap: 0; /* 三栏严格 1px 分隔线,无 gap */
+
+  /* ─── shadcn 兼容 fallback(其他 atom / dialog 还在用 HSL) ─── */
+  /* 用 Sheikah slate 取代原 shadcn 默认深色,保留语义名 */
+  --background: 196 35% 7%;          /* slate-bg ish */
+  --foreground: 200 13% 92%;         /* ink-white */
+  --card: 200 30% 11%;
+  --card-foreground: 200 13% 92%;
+  --popover: 200 30% 11%;
+  --popover-foreground: 200 13% 92%;
+  --primary: 188 67% 61%;            /* cyan */
+  --primary-foreground: 196 35% 7%;
+  --secondary: 200 26% 17%;
+  --secondary-foreground: 200 13% 92%;
+  --muted: 200 26% 17%;
+  --muted-foreground: 198 11% 47%;
+  --accent: 200 26% 17%;
+  --accent-foreground: 200 13% 92%;
+  --destructive: 343 53% 47%;        /* malice */
+  --destructive-foreground: 200 13% 92%;
+  --border: 200 31% 21%;             /* slate-edge */
+  --input: 200 31% 21%;
+  --ring: 188 67% 61%;
+  --radius: 2px;                     /* design-handoff §3.4 — 严禁 8px+ */
+}
+
+/* ─── 蜂窝六边形暗纹 underlay（body::before） ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="56" viewBox="0 0 48 56"><polygon points="24,4 44,16 44,40 24,52 4,40 4,16" fill="none" stroke="%235bc8dd" stroke-opacity="0.09" stroke-width="0.6"/></svg>');
+  background-size: 48px 56px;
+  opacity: 0.5;
+}
+
+/* ─── pulse 呼吸（design-handoff §3.3 三个动效之一） ─── */
+@keyframes ab-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.06); }
+}
+
+@keyframes ab-pulse-fast {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes ab-blink {
+  50% { opacity: 0; }
+}
+
+.ab-pulse { animation: ab-pulse 2.4s ease-in-out infinite; }
+.ab-pulse-fast { animation: ab-pulse-fast 2s ease-in-out infinite; }
+.ab-blink { animation: ab-blink 1.1s steps(2) infinite; }
+
+/* ─── thinking-dots:三点循环 fade(思考→正式内容 过渡 loading) ─── */
+@keyframes ab-thinking-dot {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.85); }
+  40% { opacity: 1; transform: scale(1.1); }
+}
+.ab-thinking-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.ab-thinking-dots > i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink-dim);
+  animation: ab-thinking-dot 1.4s ease-in-out infinite;
+}
+.ab-thinking-dots > i:nth-child(2) { animation-delay: 0.2s; }
+.ab-thinking-dots > i:nth-child(3) { animation-delay: 0.4s; }

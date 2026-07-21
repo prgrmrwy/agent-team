@@ -1,0 +1,37 @@
+{
+  "name": "agent-team",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=11"
+  },
+  "scripts": {
+    "app": "node tools/dev-app.mjs",
+    "app:dev": "node tools/dev-app.mjs",
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "lint:deps": "depcruise apps packages --config .dependency-cruiser.cjs",
+    "lint:fsd": "CHOKIDAR_USEPOLLING=1 CHOKIDAR_INTERVAL=100 steiger apps/web/src",
+    "preflight": "pnpm lint:deps && pnpm lint:fsd && pnpm typecheck && pnpm test",
+    "prepare": "simple-git-hooks || true"
+  },
+  "simple-git-hooks": {
+    "pre-push": "pnpm preflight"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.0",
+    "dependency-cruiser": "^16.0.0",
+    "simple-git-hooks": "^2.11.1",
+    "steiger": "^0.5.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "@feature-sliced/steiger-plugin": "^0.6.0"
+  }
+}
